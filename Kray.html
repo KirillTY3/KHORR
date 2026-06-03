@@ -48,52 +48,10 @@
     color: var(--blood-red);
     margin-left: 2px;
 }
-
-.menu-links {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-}
-
-.menu-links a {
-    color: #aaa;
-    text-decoration: none;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.menu-links a:not(.menu-btn-download):hover {
-    color: #fff;
-}
-
-/* Кнопка "Скачать" — теперь выглядит солидно */
-.menu-btn-download {
-    border: 1px solid var(--blood-red);
-    padding: 10px 24px;
-    border-radius: 0px; /* Прямые углы для строгости */
-    color: #fff !important;
-    background: transparent;
-    transition: all 0.3s ease !important;
-}
-
-.menu-btn-download:hover {
-    background: var(--blood-red) !important;
-    box-shadow: 0 0 20px rgba(204, 0, 0, 0.4);
-}
-
 /* Адаптив под мобилки */
 @media (max-width: 768px) {
     .top-menu {
         padding: 15px 25px;
-    }
-    .menu-links {
-        gap: 20px;
-    }
-    .menu-links a:not(.menu-btn-download) {
-        display: none; /* Скрываем лишние ссылки на мобилках для чистоты */
     }
 }
         :root {
@@ -285,6 +243,39 @@
             text-transform: uppercase;
         }
 
+        /* МОДАЛЬНОЕ ОКНО ГАЛЕРЕИ */
+        .modal {
+            display: flex;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            width: 50vw;
+            height: auto;
+            max-height: 90vh;
+            border: 1px solid var(--blood-red);
+            box-shadow: 0 0 30px rgba(179, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
         @media (max-width: 768px) {
             header { padding: 20px; }
             .nav-links { display: none; }
@@ -299,9 +290,6 @@
 
     <nav class="top-menu">
         <a href="index.html" class="menu-logo">КРАЙ<span>РУИН 2.0</span></a>
-        <div class="menu-links">
-           <a href=".html" style="color: var(--blood-red); font-weight: 600; text-decoration: none;">информация</a>
-        </div>
     </nav>
 
 <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&display=swap" rel="stylesheet">
@@ -393,46 +381,54 @@
     </div>
 </section>
 
-<section id="global-update" style="padding: 120px 20px; background: radial-gradient(circle at top, #0d0d0d 0%, #050505 100%); border-top: 1px solid #1a1a1a; position: relative; overflow: hidden;">
-    <div style="position: absolute; top: -10%; right: -5%; width: 400px; height: 400px; background: var(--blood-red); filter: blur(180px); opacity: 0.05; pointer-events: none;"></div>
+<section id="global-update" style="padding: 120px 10%; background: linear-gradient(to bottom, #080808 0%, var(--dark-bg) 100%); border-top: 1px solid rgba(179, 0, 0, 0.1); position: relative; overflow: hidden;">
+    <!-- Мягкое кровавое свечение на фоне -->
+    <div style="position: absolute; top: -10%; right: -5%; width: 500px; height: 500px; background: var(--blood-red); filter: blur(150px); opacity: 0.03; pointer-events: none;"></div>
 
-    <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 2;">
+    <div style="max-width: 1400px; margin: 0 auto; position: relative; z-index: 2;">
         <div style="text-align: center; margin-bottom: 90px;">
-            <h2 style="font-family: 'Playfair Display'; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 12px; background: linear-gradient(to bottom, #fff 0%, #666 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin: 0;">Глобальное обновление</h2>
-            <div style="width: 60px; height: 2px; background: var(--blood-red); margin: 20px auto;"></div>
-            <p style="color: var(--blood-red); letter-spacing: 6px; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; opacity: 0.9; animation: pulse-red 2s infinite;">Kray Ruin 2.0</p>
+            <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: 8px; color: #fff; text-transform: uppercase; font-weight: 700; margin: 0;">Глобальное обновление</h2>
+            <div style="width: 40px; height: 1px; background: var(--blood-red); margin: 25px auto;"></div>
+            <p style="color: var(--blood-red); letter-spacing: 4px; font-size: 0.8rem; text-transform: uppercase; font-weight: 600; opacity: 0.8; animation: pulse-red 3s infinite;">Версия 2.0: Новая Эра</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 80px; align-items: start;">
             <div class="update-content">
                 <style>
                     .update-item { margin-bottom: 45px; transition: 0.4s; }
-                    .update-item:hover { transform: translateX(10px); }
-                    .update-item h3 { color: #fff; font-size: 0.9rem; letter-spacing: 4px; border-left: 3px solid var(--blood-red); padding-left: 15px; margin-bottom: 25px; text-transform: uppercase; }
+                    .update-item h3 { 
+                        color: #fff; 
+                        font-family: 'Playfair Display', serif;
+                        font-size: 1.1rem; 
+                        letter-spacing: 2px; 
+                        border-left: 2px solid var(--blood-red); 
+                        padding-left: 15px; 
+                        margin-bottom: 25px; 
+                        text-transform: uppercase; 
+                    }
                     .update-list-inner { list-style: none; padding-left: 5px; }
-                    .update-list-inner li { color: #777; font-size: 0.95rem; margin-bottom: 15px; transition: 0.3s; display: flex; align-items: flex-start; }
+                    .update-list-inner li { color: #888; font-size: 0.9rem; margin-bottom: 15px; transition: 0.3s; display: flex; align-items: flex-start; line-height: 1.4; }
                     .update-list-inner li:hover { color: #fff; }
-                    .update-list-inner li::before { content: ""; width: 6px; height: 6px; background: var(--blood-red); margin-right: 15px; margin-top: 8px; border-radius: 50%; box-shadow: 0 0 10px var(--blood-red); flex-shrink: 0; }
+                    .update-list-inner li::before { content: "—"; color: var(--blood-red); margin-right: 12px; font-weight: bold; flex-shrink: 0; }
+                    
                     @keyframes pulse-red {
-                        0% { opacity: 0.6; text-shadow: 0 0 0px var(--blood-red); }
-                        50% { opacity: 1; text-shadow: 0 0 15px var(--blood-red); }
-                        100% { opacity: 0.6; text-shadow: 0 0 0px var(--blood-red); }
+                        0%, 100% { opacity: 0.5; }
+                        50% { opacity: 1; text-shadow: 0 0 10px var(--blood-red); }
                     }
                 </style>
                 <div class="update-item">
-                    <h3>[01] Механики выживания</h3>
+                    <h3>Механики выживания</h3>
                     <ul class="update-list-inner">
-                        <li>Система метаболизма: критический голод вызывает галлюцинации.</li>
-                        <li>Сыворотка «Зеро»: уникальный препарат для подавления эффектов Тумана.</li>
-                        <li>Ночные хищники: монстры умеют выслеживать по звуку дыхания.</li>
+                        <li><b>Метаболизм:</b> - </li>
+                        <li><b>Сыворотка «Зеро»:</b> - </li>
+                        <li><b>Слух хищников:</b> - </li>
                     </ul>
                 </div>
                 <div class="update-item">
-                    <h3>[02] Расширение мира</h3>
+                    <h3>Расширение мира</h3>
                     <ul class="update-list-inner">
-                        <li>Локация «Корпус С»: процедурно-генерируемые коридоры.</li>
-                        <li>Память воды: новые интерактивные объекты у Озера.</li>
-                        <li>Динамические NPC: персонажи теперь перемещаются по карте.</li>
+                        <li><b>Корпус С:</b> - </li>
+                        <li><b>Эхо прошлого:</b> - </li>
                     </ul>
                 </div>
             </div>
@@ -458,7 +454,7 @@
         
         <div style="position: relative; display: inline-block;">
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120%; height: 120%; background: var(--blood-red); filter: blur(40px); opacity: 0.15; pointer-events: none;"></div>
-            <a href="#" style="position: relative; padding: 28px 100px; font-size: 1rem; background: var(--blood-red); color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 6px; font-weight: 800; box-shadow: 0 15px 45px rgba(179, 0, 0, 0.4); transition: 0.6s; display: inline-block;" 
+            <a href="https://drive.google.com/file/d/1PnCZjbxvSG5Wu9miWtsXoN3UYjCe0piu/view?usp=drive_link" style="position: relative; padding: 28px 100px; font-size: 1rem; background: var(--blood-red); color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: 6px; font-weight: 800; box-shadow: 0 15px 45px rgba(179, 0, 0, 0.4); transition: 0.6s; display: inline-block;" 
                onmouseover="this.style.transform='translateY(-8px)';" onmouseout="this.style.transform='translateY(0)';">
                 Скачать Сборку
             </a>
@@ -474,6 +470,20 @@
 <footer>
     &copy; 2026 Край Руин. Дизайн и разработка для сообщества.
 </footer>
+
+<div id="imageModal" class="modal" onclick="this.classList.remove('active')">
+    <img class="modal-content" id="img01">
+</div>
+
+<script>
+    document.querySelectorAll('.gallery img').forEach(img => {
+        img.onclick = function() {
+            const modal = document.getElementById('imageModal');
+            document.getElementById('img01').src = this.src;
+            modal.classList.add('active');
+        }
+    });
+</script>
 
 </body>
 </html>
